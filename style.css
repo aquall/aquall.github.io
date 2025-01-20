@@ -4,6 +4,21 @@ body {
     padding: 20px;
 }
 
+ul {
+    list-style-type: none; /* Removes default bullet points */
+    padding: 0;
+}
+li {
+    margin: 10px 0;
+}
+a {
+    text-decoration: none; /* Removes underline from links */
+    font-size: 18px;
+}
+a:hover {
+    text-decoration: underline; /* Adds underline on hover */
+}
+
 h1 {
     color: #1c1c1c;
 }
