@@ -16,7 +16,7 @@ function changeSymbol(symbol) {
         symbol.textContent = '*';
         setTimeout(() => {
             symbol.textContent = ' ';
-        }, 5);
+        }, 10);
     }
 }
 
