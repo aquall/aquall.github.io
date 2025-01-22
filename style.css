@@ -22,3 +22,48 @@ a:hover {
 h1 {
     color: #1c1c1c;
 }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+#container {
+    position: absolute; /* Position the container absolutely */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    z-index: 1; /* Place the container visually behind the content */
+    pointer-events: none; /* Allow mouse events to pass through */
+}
+
+.symbol {
+    font-size: 6px;
+    font-family: monospace;
+    width: 6px;
+    height: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    pointer-events: auto; /* Enable mouse events for symbols */
+}
+
+
+#content {
+    position: relative; /* Position the content relatively */
+    z-index: 2; /* Place the content above the container */
+    padding: 20px;
+    margin: 50px;
+    text-align: center;
+}
+
+#content .interactive {
+    display: inline-block; /* Ensure links and buttons behave as expected */
+    margin: 10px 0; /* Add some spacing for better UX */
+}
