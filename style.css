@@ -58,8 +58,6 @@ h1 {
 #content {
     position: relative; /* Position the content relatively */
     z-index: 2; /* Place the content above the container */
-    padding: 20px;
-    margin: 50px;
     text-align: center;
 }
 
