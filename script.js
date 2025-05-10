@@ -64,9 +64,9 @@ function walkAnt() {
         { di: 0, dj: 1 },  // right
     ];
     const randomDirection = directions[Math.floor(Math.random() * directions.length)];
-    const randomDistance = Math.floor(Math.random() * 5);
-    const newAnt_i = ant_i + randomDirection.di * randomDistance;
-    const newAnt_j = ant_j + randomDirection.dj * randomDistance;
+    //const randomDistance = Math.floor(Math.random() * 2);
+    const newAnt_i = ant_i + randomDirection.di; // * randomDistance;
+    const newAnt_j = ant_j + randomDirection.dj; // * randomDistance;
     // check if the new position is within bounds
     if (newAnt_i >= 0 && newAnt_i < rows && newAnt_j >= 0 && newAnt_j < cols) {
         ant_i = newAnt_i;
