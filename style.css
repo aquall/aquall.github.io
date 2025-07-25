@@ -19,6 +19,10 @@ a:hover {
     text-decoration: underline; /* Adds underline on hover */
 }
 
+h1 {
+    color: #1c1c1c;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -73,6 +77,11 @@ a:hover {
 #content .interactive {
     display: inline-block; /* Ensure links and buttons behave as expected */
     margin: 10px 0; /* Add some spacing for better UX */
+}
+
+main, section, p {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 section h2 {
