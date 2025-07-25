@@ -61,6 +61,19 @@ h1 {
     text-align: center;
 }
 
+#text {
+    position: relative;
+    z-index: 2;
+    text-align: left; /* Keeps your text centered within this container */
+    width: 100%;        /* Allows the content to take the full available width */
+    max-width: 960px;   /* Sets a maximum width for very wide screens (you can adjust this value) */
+    margin-left: auto;  /* These two margin properties center the #content block */
+    margin-right: auto; /* itself on the page when its max-width is reached */
+    padding: 20px;      /* Optional: Adds some padding inside the content block.
+                           Your body currently has 20px padding. You might want to adjust
+                           or remove body padding if you add it here. */
+}
+
 #content .interactive {
     display: inline-block; /* Ensure links and buttons behave as expected */
     margin: 10px 0; /* Add some spacing for better UX */

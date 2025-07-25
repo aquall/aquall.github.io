@@ -2,6 +2,8 @@ const container = document.getElementById('container');
 const symbolSize = 6;
 const rows = Math.floor(window.innerHeight / symbolSize);
 const cols = Math.floor(window.innerWidth / symbolSize);
+let ant_i = Math.floor(Math.random() * rows);
+let ant_j = Math.floor(Math.random() * cols);
 
 // Fill the container with symbols
 for (let i = 0; i < rows * cols; i++) {
@@ -12,11 +14,16 @@ for (let i = 0; i < rows * cols; i++) {
 }
 
 function changeSymbol(symbol) {
+    if (!symbol) return; // Safety check
+
     if (symbol.textContent === ' ') {
         symbol.textContent = '*';
+        // Optional: Make it blink off after a short time
         setTimeout(() => {
-            symbol.textContent = ' ';
-        }, 100);
+            if (symbol) symbol.textContent = ' ';
+        }, 100000); // Blinks off after 200ms (adjust as needed)
+    } else if (symbol.textContent === '*') {
+        symbol.textContent = ' ';
     }
 }
 
@@ -48,5 +55,30 @@ function triggerRipple() {
     }
 }
 
-// Trigger a ripple every 2 seconds
-setInterval(triggerRipple, 500);
+function walkAnt() {
+    // make the ant move in a random direction
+    const directions = [
+        { di: -1, dj: 0 }, // up
+        { di: 1, dj: 0 },  // down
+        { di: 0, dj: -1 }, // left
+        { di: 0, dj: 1 },  // right
+    ];
+    const randomDirection = directions[Math.floor(Math.random() * directions.length)];
+    //const randomDistance = Math.floor(Math.random() * 2);
+    const newAnt_i = ant_i + randomDirection.di; // * randomDistance;
+    const newAnt_j = ant_j + randomDirection.dj; // * randomDistance;
+    // check if the new position is within bounds
+    if (newAnt_i >= 0 && newAnt_i < rows && newAnt_j >= 0 && newAnt_j < cols) {
+        ant_i = newAnt_i;
+        ant_j = newAnt_j;
+        const index = ant_i * cols + ant_j;
+        const symbol = container.children[index];
+        changeSymbol(symbol);
+    }
+}
+// Move the ant every 100 milliseconds
+setInterval(walkAnt, 0);
+// Trigger a ripple at the ant's position every 0.5 seconds
+
+// Trigger a ripple every 0.5 seconds
+// setInterval(triggerRipple, 500);
