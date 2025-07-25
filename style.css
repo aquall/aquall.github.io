@@ -65,3 +65,18 @@ h1 {
     display: inline-block; /* Ensure links and buttons behave as expected */
     margin: 10px 0; /* Add some spacing for better UX */
 }
+
+main, section, p {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+section h2 {
+    text-align: center;
+}
+
+section, p {
+    text-align: justify;
+    margin-bottom: 2em;
+}
