@@ -19,10 +19,6 @@ a:hover {
     text-decoration: underline; /* Adds underline on hover */
 }
 
-h1 {
-    color: #1c1c1c;
-}
-
 * {
     margin: 0;
     padding: 0;
@@ -79,17 +75,12 @@ h1 {
     margin: 10px 0; /* Add some spacing for better UX */
 }
 
-main, section, p {
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 section h2 {
     text-align: center;
 }
 
 section, p {
+    max-width: 500px;
     text-align: justify;
     margin-bottom: 2em;
 }
