@@ -6,7 +6,7 @@ const densitySymbols = [' ', '.', ',', '-', '+', '(', '/', '*', '#', '&', '%', '
 
 // --- GRID & ANT SETUP ---
 // MODIFIED: Using fixed rows and columns for a consistent art size
-const rows = 100;
+const rows = 60;
 const cols = 60;
 
 let ant_i = Math.floor(Math.random() * rows);

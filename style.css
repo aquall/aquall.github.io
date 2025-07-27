@@ -10,11 +10,11 @@ body {
 #container {
     position: relative;
     width: 480px;
-    height: 320px;
+    height: 480px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 40px auto 0 auto;
+    margin: 48px auto 0 auto;
     z-index: 1;
     pointer-events: none;
 }
@@ -22,7 +22,7 @@ body {
 /* NEW: Wrapper for the art with a fixed size */
 #art-wrapper {
     width: 480px;  /* (cols * symbolSize) -> 100 * 8px */
-    height: 320px; /* (rows * symbolSize) -> 60 * 8px */
+    height: 480px; /* (rows * symbolSize) -> 60 * 8px */
 }
 
 .symbol {
@@ -40,7 +40,7 @@ body {
     position: relative;
     z-index: 2; /* Ensure content is above the art */
     text-align: center;
-    margin-top: 32px;
+    margin-top: 40px;
 }
 
 /* Other styles for links and text */
