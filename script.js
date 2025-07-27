@@ -5,9 +5,8 @@ const imageUrl = 'images/index_photo.jpg';
 const densitySymbols = [' ', '.', ',', '-', '+', '(', '/', '*', '#', '&', '%', '@'];
 
 // --- GRID & ANT SETUP ---
-// MODIFIED: Using fixed rows and columns for a consistent art size
-const rows = 60;
-const cols = 60;
+const rows = 56;
+const cols = 56;
 
 let ant_i = Math.floor(Math.random() * rows);
 let ant_j = Math.floor(Math.random() * cols);
@@ -103,4 +102,4 @@ function walkAnt() {
 
 // --- INITIALIZATION ---
 initializeGridFromImage(imageUrl);
-setInterval(walkAnt, 10); // A slightly slower interval can be easier on the browser
+setInterval(walkAnt, 1); // A slightly slower interval can be easier on the browser

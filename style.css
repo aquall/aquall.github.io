@@ -9,20 +9,20 @@ body {
 /* MODIFIED: Container is now a flexbox to center the art */
 #container {
     position: relative;
-    width: 480px;
-    height: 480px;
+    width: 448px;
+    height: 448px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 48px auto 0 auto;
+    margin: 24px auto 0 auto;
     z-index: 1;
     pointer-events: none;
 }
 
 /* NEW: Wrapper for the art with a fixed size */
 #art-wrapper {
-    width: 480px;  /* (cols * symbolSize) -> 100 * 8px */
-    height: 480px; /* (rows * symbolSize) -> 60 * 8px */
+    width: 448px;  /* (cols * symbolSize) -> 100 * 8px */
+    height: 448px; /* (rows * symbolSize) -> 60 * 8px */
 }
 
 .symbol {
@@ -42,6 +42,14 @@ body {
     text-align: center;
     margin-top: 40px;
 }
+
+#text {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: justify;
+}
+
 
 /* Other styles for links and text */
 ul {
