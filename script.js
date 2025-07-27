@@ -1,13 +1,13 @@
 // --- CONFIGURATION ---
 const artWrapper = document.getElementById('art-wrapper');
 const symbolSize = 8;
-const imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/d/d3/Albert_Einstein_Head.jpg';
+const imageUrl = 'images/index_photo.jpg';
 const densitySymbols = [' ', '.', ',', '-', '+', '(', '/', '*', '#', '&', '%', '@'];
 
 // --- GRID & ANT SETUP ---
 // MODIFIED: Using fixed rows and columns for a consistent art size
-const rows = 60;
-const cols = 100;
+const rows = 100;
+const cols = 60;
 
 let ant_i = Math.floor(Math.random() * rows);
 let ant_j = Math.floor(Math.random() * cols);

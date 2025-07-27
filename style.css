@@ -4,34 +4,32 @@ body {
     padding: 20px;
     color: #000000;
     margin: 0;
-    overflow: hidden; /* Prevent scrollbars */
 }
 
 /* MODIFIED: Container is now a flexbox to center the art */
 #container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    position: relative;
+    width: 480px;
+    height: 320px;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 40px auto 0 auto;
     z-index: 1;
     pointer-events: none;
 }
 
 /* NEW: Wrapper for the art with a fixed size */
 #art-wrapper {
-    width: 800px;  /* (cols * symbolSize) -> 100 * 8px */
-    height: 480px; /* (rows * symbolSize) -> 60 * 8px */
+    width: 480px;  /* (cols * symbolSize) -> 100 * 8px */
+    height: 320px; /* (rows * symbolSize) -> 60 * 8px */
 }
 
 .symbol {
     float: left;
     width: 8px;   /* Must match symbolSize in JS */
     height: 8px;  /* Must match symbolSize in JS */
-    font-size: 8px;
+    font-size: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,6 +40,7 @@ body {
     position: relative;
     z-index: 2; /* Ensure content is above the art */
     text-align: center;
+    margin-top: 32px;
 }
 
 /* Other styles for links and text */
