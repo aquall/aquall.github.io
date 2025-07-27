@@ -1,15 +1,13 @@
 // --- CONFIGURATION ---
-// FIXED: Get both the container and the new art-wrapper element
-const container = document.getElementById('container');
 const artWrapper = document.getElementById('art-wrapper');
-const symbolSize = 6;
+const symbolSize = 8;
 const imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/d/d3/Albert_Einstein_Head.jpg';
 const densitySymbols = [' ', '.', ',', '-', '+', '(', '/', '*', '#', '&', '%', '@'];
 
 // --- GRID & ANT SETUP ---
-// Using fixed rows and columns for consistent art size
-const rows = 65;
-const cols = 50;
+// MODIFIED: Using fixed rows and columns for a consistent art size
+const rows = 60;
+const cols = 100;
 
 let ant_i = Math.floor(Math.random() * rows);
 let ant_j = Math.floor(Math.random() * cols);
@@ -34,7 +32,6 @@ function initializeGridFromImage(url) {
         artWrapper.innerHTML = '';
 
         for (let i = 0; i < rows * cols; i++) {
-            // FIXED: Re-added the missing pixel processing logic
             const pixelIndex = i * 4;
             const r = imageData[pixelIndex];
             const g = imageData[pixelIndex + 1];
@@ -49,7 +46,6 @@ function initializeGridFromImage(url) {
         }
     };
 
-    // FIXED: Moved img.onerror to be inside the correct function scope
     img.onerror = () => {
         console.error("Failed to load image. Initializing with a blank grid.");
         initializeBlankGrid();
@@ -60,7 +56,6 @@ function initializeGridFromImage(url) {
  * Fills the container with the least dense symbol as a fallback.
  */
 function initializeBlankGrid() {
-    // FIXED: Changed to modify artWrapper to be consistent
     artWrapper.innerHTML = '';
     for (let i = 0; i < rows * cols; i++) {
         const symbol = document.createElement('div');
@@ -72,7 +67,6 @@ function initializeBlankGrid() {
 
 /**
  * Progressively updates the symbol at the ant's location.
- * @param {HTMLElement} symbol - The symbol element to change.
  */
 function changeSymbol(symbol) {
     if (!symbol) return;
@@ -109,4 +103,4 @@ function walkAnt() {
 
 // --- INITIALIZATION ---
 initializeGridFromImage(imageUrl);
-setInterval(walkAnt, 0);
+setInterval(walkAnt, 10); // A slightly slower interval can be easier on the browser

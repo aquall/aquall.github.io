@@ -1,95 +1,61 @@
 body {
-    background-color: #d4d4d4;
+    background-color: #d6d6d6; /* Dark background for better contrast */
     text-align: center;
     padding: 20px;
+    color: #000000;
+    margin: 0;
+    overflow: hidden; /* Prevent scrollbars */
 }
 
-/* 1. Make the outer container a full-screen flex parent */
+/* MODIFIED: Container is now a flexbox to center the art */
 #container {
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center;    /* Center vertically */
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    pointer-events: none;
 }
 
-/* 2. Give the art wrapper a fixed size based on the grid */
-/* (cols * symbolSize) x (rows * symbolSize) */
-/* (100 * 8px) x (60 * 8px) = 800px x 480px */
+/* NEW: Wrapper for the art with a fixed size */
 #art-wrapper {
-    width: 500px; 
-    height: 650px;
+    width: 800px;  /* (cols * symbolSize) -> 100 * 8px */
+    height: 480px; /* (rows * symbolSize) -> 60 * 8px */
 }
 
-/* 3. Symbol styling remains the same */
 .symbol {
     float: left;
-    width: 6px; /* Explicitly set size */
-    height: 6px; /* Explicitly set size */
-    text-align: center;
+    width: 8px;   /* Must match symbolSize in JS */
+    height: 8px;  /* Must match symbolSize in JS */
+    font-size: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: rgb(0, 0, 0);
 }
 
+#content {
+    position: relative;
+    z-index: 2; /* Ensure content is above the art */
+    text-align: center;
+}
+
+/* Other styles for links and text */
 ul {
-    list-style-type: none; /* Removes default bullet points */
+    list-style-type: none;
     padding: 0;
 }
 li {
     margin: 10px 0;
 }
 a {
-    text-decoration: none; /* Removes underline from links */
+    text-decoration: none;
     font-size: 18px;
 }
 a:hover {
-    text-decoration: underline; /* Adds underline on hover */
-}
-
-h1 {
-    color: #1c1c1c;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-#content {
-    position: relative; /* Position the content relatively */
-    z-index: 2; /* Place the content above the container */
-    text-align: center;
-}
-
-#text {
-    position: relative;
-    z-index: 2;
-    text-align: left; /* Keeps your text centered within this container */
-    width: 100%;        /* Allows the content to take the full available width */
-    max-width: 960px;   /* Sets a maximum width for very wide screens (you can adjust this value) */
-    margin-left: auto;  /* These two margin properties center the #content block */
-    margin-right: auto; /* itself on the page when its max-width is reached */
-    padding: 20px;      /* Optional: Adds some padding inside the content block.
-                           Your body currently has 20px padding. You might want to adjust
-                           or remove body padding if you add it here. */
-}
-
-#content .interactive {
-    display: inline-block; /* Ensure links and buttons behave as expected */
-    margin: 10px 0; /* Add some spacing for better UX */
-}
-
-main, section, p {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-section h2 {
-    text-align: center;
-}
-
-section, p {
-    max-width: 500px;
-    text-align: justify;
-    margin-bottom: 2em;
+    text-decoration: underline;
 }
