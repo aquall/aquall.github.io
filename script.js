@@ -1,84 +1,112 @@
+// --- CONFIGURATION ---
+// FIXED: Get both the container and the new art-wrapper element
 const container = document.getElementById('container');
+const artWrapper = document.getElementById('art-wrapper');
 const symbolSize = 6;
-const rows = Math.floor(window.innerHeight / symbolSize);
-const cols = Math.floor(window.innerWidth / symbolSize);
+const imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/d/d3/Albert_Einstein_Head.jpg';
+const densitySymbols = [' ', '.', ',', '-', '+', '(', '/', '*', '#', '&', '%', '@'];
+
+// --- GRID & ANT SETUP ---
+// Using fixed rows and columns for consistent art size
+const rows = 65;
+const cols = 50;
+
 let ant_i = Math.floor(Math.random() * rows);
 let ant_j = Math.floor(Math.random() * cols);
 
-// Fill the container with symbols
-for (let i = 0; i < rows * cols; i++) {
-    const symbol = document.createElement('div');
-    symbol.classList.add('symbol');
-    symbol.textContent = ' ';
-    container.appendChild(symbol);
-}
+/**
+ * Initializes the grid by converting an image to ASCII characters.
+ * @param {string} url - The URL of the image to load.
+ */
+function initializeGridFromImage(url) {
+    const img = new Image();
+    img.crossOrigin = "Anonymous";
+    img.src = url;
 
-function changeSymbol(symbol) {
-    if (!symbol) return; // Safety check
+    img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        canvas.width = cols;
+        canvas.height = rows;
+        ctx.drawImage(img, 0, 0, cols, rows);
+        const imageData = ctx.getImageData(0, 0, cols, rows).data;
 
-    if (symbol.textContent === ' ') {
-        symbol.textContent = '*';
-        // Optional: Make it blink off after a short time
-        setTimeout(() => {
-            if (symbol) symbol.textContent = ' ';
-        }, 100000); // Blinks off after 200ms (adjust as needed)
-    } else if (symbol.textContent === '*') {
-        symbol.textContent = ' ';
-    }
-}
+        artWrapper.innerHTML = '';
 
-function triggerRipple() {
-    // Randomly select a point within the grid
-    const i = Math.floor(Math.random() * rows);
-    const j = Math.floor(Math.random() * cols);
+        for (let i = 0; i < rows * cols; i++) {
+            // FIXED: Re-added the missing pixel processing logic
+            const pixelIndex = i * 4;
+            const r = imageData[pixelIndex];
+            const g = imageData[pixelIndex + 1];
+            const b = imageData[pixelIndex + 2];
+            const brightness = (r + g + b) / 3;
+            const symbolIndex = Math.round((1 - brightness / 255) * (densitySymbols.length - 1));
 
-    const maxRadius = 6;
-    const delayPerUnit = 100; // milliseconds per unit distance
-
-    // Generate ripple effect
-    for (let di = -maxRadius; di <= maxRadius; di++) {
-        for (let dj = -maxRadius; dj <= maxRadius; dj++) {
-            const distance = Math.sqrt(di ** 2 + dj ** 2);
-            if (distance > maxRadius) continue;
-
-            const ii = i + di;
-            const jj = j + dj;
-
-            if (ii >= 0 && ii < rows && jj >= 0 && jj < cols) {
-                const index = ii * cols + jj;
-                const symbol = container.children[index];
-                const delay = distance * delayPerUnit;
-
-                setTimeout(() => changeSymbol(symbol), delay);
-            }
+            const symbol = document.createElement('div');
+            symbol.classList.add('symbol');
+            symbol.textContent = densitySymbols[symbolIndex];
+            artWrapper.appendChild(symbol);
         }
+    };
+
+    // FIXED: Moved img.onerror to be inside the correct function scope
+    img.onerror = () => {
+        console.error("Failed to load image. Initializing with a blank grid.");
+        initializeBlankGrid();
+    };
+}
+
+/**
+ * Fills the container with the least dense symbol as a fallback.
+ */
+function initializeBlankGrid() {
+    // FIXED: Changed to modify artWrapper to be consistent
+    artWrapper.innerHTML = '';
+    for (let i = 0; i < rows * cols; i++) {
+        const symbol = document.createElement('div');
+        symbol.classList.add('symbol');
+        symbol.textContent = densitySymbols[0];
+        artWrapper.appendChild(symbol);
     }
 }
 
+/**
+ * Progressively updates the symbol at the ant's location.
+ * @param {HTMLElement} symbol - The symbol element to change.
+ */
+function changeSymbol(symbol) {
+    if (!symbol) return;
+
+    const currentSymbol = symbol.textContent;
+    const currentIndex = densitySymbols.indexOf(currentSymbol);
+
+    if (currentIndex < densitySymbols.length - 1) {
+        symbol.textContent = densitySymbols[currentIndex + 1];
+    }
+}
+
+/**
+ * Moves the ant one step in a random direction and updates the symbol.
+ */
 function walkAnt() {
-    // make the ant move in a random direction
     const directions = [
-        { di: -1, dj: 0 }, // up
-        { di: 1, dj: 0 },  // down
-        { di: 0, dj: -1 }, // left
-        { di: 0, dj: 1 },  // right
+        { di: -1, dj: 0 }, { di: 1, dj: 0 },
+        { di: 0, dj: -1 }, { di: 0, dj: 1 },
     ];
+
     const randomDirection = directions[Math.floor(Math.random() * directions.length)];
-    //const randomDistance = Math.floor(Math.random() * 2);
-    const newAnt_i = ant_i + randomDirection.di; // * randomDistance;
-    const newAnt_j = ant_j + randomDirection.dj; // * randomDistance;
-    // check if the new position is within bounds
+    const newAnt_i = ant_i + randomDirection.di;
+    const newAnt_j = ant_j + randomDirection.dj;
+
     if (newAnt_i >= 0 && newAnt_i < rows && newAnt_j >= 0 && newAnt_j < cols) {
         ant_i = newAnt_i;
         ant_j = newAnt_j;
         const index = ant_i * cols + ant_j;
-        const symbol = container.children[index];
+        const symbol = artWrapper.children[index];
         changeSymbol(symbol);
     }
 }
-// Move the ant every 100 milliseconds
-setInterval(walkAnt, 0);
-// Trigger a ripple at the ant's position every 0.5 seconds
 
-// Trigger a ripple every 0.5 seconds
-// setInterval(triggerRipple, 500);
+// --- INITIALIZATION ---
+initializeGridFromImage(imageUrl);
+setInterval(walkAnt, 0);

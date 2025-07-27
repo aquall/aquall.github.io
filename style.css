@@ -4,6 +4,32 @@ body {
     padding: 20px;
 }
 
+/* 1. Make the outer container a full-screen flex parent */
+#container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center;    /* Center vertically */
+    width: 100vw;
+    height: 100vh;
+}
+
+/* 2. Give the art wrapper a fixed size based on the grid */
+/* (cols * symbolSize) x (rows * symbolSize) */
+/* (100 * 8px) x (60 * 8px) = 800px x 480px */
+#art-wrapper {
+    width: 500px; 
+    height: 650px;
+}
+
+/* 3. Symbol styling remains the same */
+.symbol {
+    float: left;
+    width: 6px; /* Explicitly set size */
+    height: 6px; /* Explicitly set size */
+    text-align: center;
+    color: rgb(0, 0, 0);
+}
+
 ul {
     list-style-type: none; /* Removes default bullet points */
     padding: 0;
@@ -28,32 +54,6 @@ h1 {
     padding: 0;
     box-sizing: border-box;
 }
-
-
-#container {
-    position: absolute; /* Position the container absolutely */
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-wrap: wrap;
-    z-index: 1; /* Place the container visually behind the content */
-    pointer-events: none; /* Allow mouse events to pass through */
-}
-
-.symbol {
-    font-size: 6px;
-    font-family: monospace;
-    width: 6px;
-    height: 6px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    pointer-events: auto; /* Enable mouse events for symbols */
-}
-
 
 #content {
     position: relative; /* Position the content relatively */
