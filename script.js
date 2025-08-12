@@ -1,6 +1,6 @@
 // --- CONFIGURATION ---
 const artWrapper = document.getElementById('art-wrapper');
-const symbolSize = 8;
+const symbolSize = 6;
 const imageUrl = 'images/index_photo.jpg';
 const densitySymbols = [' ', '.', ',', '-', '+', '(', '/', '*', '#', '&', '%', '@'];
 

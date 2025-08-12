@@ -9,8 +9,8 @@ body {
 /* Centers the ASCII art container */
 #container {
     position: relative;
-    width: 448px;
-    height: 448px;
+    width: 336px;
+    height: 336px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,16 +21,16 @@ body {
 
 #art-wrapper {
     /* Fixed size matches rows * symbolSize */
-    width: 448px;
-    height: 448px;
+    width: 336px;
+    height: 336px;
 }
 
 .symbol {
     float: left;
-    width: 8px;   /* Must match symbolSize in JS */
-    height: 8px;  /* Must match symbolSize in JS */
-    font-size: 10px;
-    line-height: 8px;
+    width: 6px;   /* Must match symbolSize in JS */
+    height: 6px;  /* Must match symbolSize in JS */
+    font-size: 6px;
+    line-height: 6px;
     display: flex;
     justify-content: center;
     align-items: center;
