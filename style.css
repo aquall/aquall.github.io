@@ -109,3 +109,11 @@ section {
         padding-right: 0;
     }
 }
+
+/* Make ASCII art visually smaller on small screens without changing grid logic */
+@media (max-width: 420px) {
+    #container {
+        transform: scale(0.75);
+        transform-origin: top center;
+    }
+}
