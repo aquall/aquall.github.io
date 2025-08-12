@@ -1,12 +1,12 @@
 body {
-    background-color: #d6d6d6; /* Dark background for better contrast */
+    background-color: #d6d6d6; /* Page background */
     text-align: center;
     padding: 20px;
     color: #000000;
     margin: 0;
 }
 
-/* MODIFIED: Container is now a flexbox to center the art */
+/* Centers the ASCII art container */
 #container {
     position: relative;
     width: 448px;
@@ -19,10 +19,10 @@ body {
     pointer-events: none;
 }
 
-/* NEW: Wrapper for the art with a fixed size */
 #art-wrapper {
-    width: 448px;  /* (cols * symbolSize) -> 100 * 8px */
-    height: 448px; /* (rows * symbolSize) -> 60 * 8px */
+    /* Fixed size matches rows * symbolSize */
+    width: 448px;
+    height: 448px;
 }
 
 .symbol {
@@ -30,6 +30,7 @@ body {
     width: 8px;   /* Must match symbolSize in JS */
     height: 8px;  /* Must match symbolSize in JS */
     font-size: 10px;
+    line-height: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -38,23 +39,24 @@ body {
 
 #content {
     position: relative;
-    z-index: 2; /* Ensure content is above the art */
+    z-index: 2; /* Ensure page content sits above the ASCII art */
     text-align: center;
     margin-top: 40px;
 }
 
-#text {
-    max-width: 500px;
+.text {
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     text-align: justify;
 }
 
 
-/* Other styles for links and text */
+/* Base list and link styles */
 ul {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
+    margin: 0;
 }
 li {
     margin: 10px 0;
@@ -65,4 +67,45 @@ a {
 }
 a:hover {
     text-decoration: underline;
+}
+
+/* Responsive content width and spacing */
+:root {
+    --content-max-width: 500px;
+    --content-padding: 16px;
+}
+
+/* Apply consistent content width and padding to main areas */
+main, nav, .gallery, #content, .text {
+    box-sizing: border-box;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--content-padding);
+    padding-right: var(--content-padding);
+}
+
+.gallery li, #content li, nav li {
+    margin: 12px 0;
+}
+
+/* Make images fluid so they fill available width on mobile */
+img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+}
+
+section {
+    margin-bottom: 24px;
+}
+
+/* On larger screens, constrain content to 500px and center it */
+@media (min-width: 768px) {
+    main, nav, .gallery, #content, .text {
+        max-width: var(--content-max-width);
+        padding-left: 0;
+        padding-right: 0;
+    }
 }

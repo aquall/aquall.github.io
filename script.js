@@ -4,18 +4,16 @@ const symbolSize = 8;
 const imageUrl = 'images/index_photo.jpg';
 const densitySymbols = [' ', '.', ',', '-', '+', '(', '/', '*', '#', '&', '%', '@'];
 
-// --- GRID & ANT SETUP ---
+// --- GRID SETUP ---
 const rows = 56;
 const cols = 56;
-
-let ant_i = Math.floor(Math.random() * rows);
-let ant_j = Math.floor(Math.random() * cols);
 
 /**
  * Initializes the grid by converting an image to ASCII characters.
  * @param {string} url - The URL of the image to load.
  */
 function initializeGridFromImage(url) {
+    if (!artWrapper) return;
     const img = new Image();
     img.crossOrigin = "Anonymous";
     img.src = url;
@@ -55,6 +53,7 @@ function initializeGridFromImage(url) {
  * Fills the container with the least dense symbol as a fallback.
  */
 function initializeBlankGrid() {
+    if (!artWrapper) return;
     artWrapper.innerHTML = '';
     for (let i = 0; i < rows * cols; i++) {
         const symbol = document.createElement('div');
@@ -78,28 +77,114 @@ function changeSymbol(symbol) {
     }
 }
 
-/**
- * Moves the ant one step in a random direction and updates the symbol.
- */
-function walkAnt() {
+// Full-page ASCII trail grid
+let trailWrapper = null;
+let trailCols = 0;
+let trailRows = 0;
+let trailRect = null;
+
+function buildTrailGrid() {
+    // Create wrapper if needed
+    if (!trailWrapper) {
+        trailWrapper = document.createElement('div');
+        trailWrapper.id = 'trail-wrapper';
+        document.body.appendChild(trailWrapper);
+    }
+    // Size to viewport
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    trailCols = Math.ceil(vw / symbolSize);
+    trailRows = Math.ceil(vh / symbolSize);
+
+    // Build cells
+    trailWrapper.innerHTML = '';
+    trailWrapper.style.position = 'fixed';
+    trailWrapper.style.left = '0';
+    trailWrapper.style.top = '0';
+    trailWrapper.style.width = `${trailCols * symbolSize}px`;
+    trailWrapper.style.height = `${trailRows * symbolSize}px`;
+    trailWrapper.style.pointerEvents = 'none';
+    trailWrapper.style.zIndex = '3';
+
+    for (let i = 0; i < trailRows * trailCols; i++) {
+        const symbol = document.createElement('div');
+        symbol.classList.add('symbol');
+        symbol.textContent = densitySymbols[0];
+        trailWrapper.appendChild(symbol);
+    }
+
+    trailRect = trailWrapper.getBoundingClientRect();
+}
+
+window.addEventListener('resize', buildTrailGrid);
+
+// Ant position and movement using original 4-direction random walk
+let antX = Math.floor(Math.random() * window.innerWidth);
+let antY = Math.floor(Math.random() * window.innerHeight);
+const stepSize = symbolSize; // step by one cell size
+
+function stepAnt() {
     const directions = [
-        { di: -1, dj: 0 }, { di: 1, dj: 0 },
-        { di: 0, dj: -1 }, { di: 0, dj: 1 },
+        { dx: -1, dy: 0 }, { dx: 1, dy: 0 },
+        { dx: 0, dy: -1 }, { dx: 0, dy: 1 },
     ];
+    const { dx, dy } = directions[Math.floor(Math.random() * directions.length)];
 
-    const randomDirection = directions[Math.floor(Math.random() * directions.length)];
-    const newAnt_i = ant_i + randomDirection.di;
-    const newAnt_j = ant_j + randomDirection.dj;
+    const newX = antX + dx * stepSize;
+    const newY = antY + dy * stepSize;
 
-    if (newAnt_i >= 0 && newAnt_i < rows && newAnt_j >= 0 && newAnt_j < cols) {
-        ant_i = newAnt_i;
-        ant_j = newAnt_j;
-        const index = ant_i * cols + ant_j;
-        const symbol = artWrapper.children[index];
-        changeSymbol(symbol);
+    // Only move if inside viewport (like original bounds check)
+    if (newX >= 0 && newX < window.innerWidth && newY >= 0 && newY < window.innerHeight) {
+        antX = newX;
+        antY = newY;
+    }
+
+    // Interact with ASCII image if overlapping
+    if (artWrapper) {
+        const rect = artWrapper.getBoundingClientRect();
+        const withinX = antX >= rect.left && antX < rect.right;
+        const withinY = antY >= rect.top && antY < rect.bottom;
+        if (withinX && withinY) {
+            const localX = antX - rect.left;
+            const localY = antY - rect.top;
+            const col = Math.floor((localX / rect.width) * cols);
+            const row = Math.floor((localY / rect.height) * rows);
+            if (row >= 0 && row < rows && col >= 0 && col < cols) {
+                const index = row * cols + col;
+                const symbol = artWrapper.children[index];
+                changeSymbol(symbol);
+                return; // do not also draw to trail for this step
+            }
+        }
+    }
+
+    // Otherwise, leave ASCII trail on the full-page grid
+    if (trailWrapper && trailRect) {
+        const localX = antX - trailRect.left;
+        const localY = antY - trailRect.top;
+        const col = Math.floor((localX / trailRect.width) * trailCols);
+        const row = Math.floor((localY / trailRect.height) * trailRows);
+        if (row >= 0 && row < trailRows && col >= 0 && col < trailCols) {
+            const index = row * trailCols + col;
+            const symbol = trailWrapper.children[index];
+            changeSymbol(symbol);
+        }
     }
 }
 
 // --- INITIALIZATION ---
 initializeGridFromImage(imageUrl);
-setInterval(walkAnt, 1); // A slightly slower interval can be easier on the browser
+
+// Build the full-page ASCII trail after DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', buildTrailGrid);
+} else {
+    buildTrailGrid();
+}
+
+// Animation loop for the page-walking ant
+function animate() {
+    stepAnt();
+    requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
