@@ -72,7 +72,7 @@ a:hover {
 /* Responsive content width and spacing */
 :root {
     --content-max-width: 500px;
-    --content-padding: 16px;
+    --content-padding: 5px;
 }
 
 /* Apply consistent content width and padding to main areas */
@@ -86,7 +86,7 @@ main, nav, .gallery, #content, .text {
 }
 
 .gallery li, #content li, nav li {
-    margin: 12px 0;
+    margin: 5px 0;
 }
 
 /* Make images fluid so they fill available width on mobile */
