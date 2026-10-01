@@ -19,22 +19,23 @@ body {
     pointer-events: none;
 }
 
-#art-wrapper {
-    /* Fixed size matches rows * symbolSize */
+#art-canvas {
+    /* Fixed size matches ART_SIZE * CELL_SIZE in animation.py. */
     width: 336px;
     height: 336px;
 }
 
-.symbol {
-    float: left;
-    width: 6px;   /* Must match symbolSize in JS */
-    height: 6px;  /* Must match symbolSize in JS */
-    font-size: 6px;
-    line-height: 6px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: rgb(0, 0, 0);
+#art-canvas,
+#trail-canvas {
+    display: block;
+    pointer-events: none;
+}
+
+#trail-canvas {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 0;
 }
 
 #content {
